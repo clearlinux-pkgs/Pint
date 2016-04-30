@@ -4,7 +4,7 @@
 #
 Name     : Pint
 Version  : 0.6
-Release  : 13
+Release  : 14
 URL      : https://pypi.python.org/packages/source/P/Pint/Pint-0.6.zip
 Source0  : https://pypi.python.org/packages/source/P/Pint/Pint-0.6.zip
 Summary  : Physical quantities module
