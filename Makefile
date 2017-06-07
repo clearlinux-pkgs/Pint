@@ -1,5 +1,5 @@
 PKG_NAME := Pint
-URL := http://pypi.debian.net/Pint/Pint-0.8.tar.gz
+URL := http://pypi.debian.net/Pint/Pint-0.8.1.tar.gz
 
 
 include ../common/Makefile.common
