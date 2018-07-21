@@ -4,34 +4,51 @@
 #
 Name     : Pint
 Version  : 0.8.1
-Release  : 22
+Release  : 23
 URL      : http://pypi.debian.net/Pint/Pint-0.8.1.tar.gz
 Source0  : http://pypi.debian.net/Pint/Pint-0.8.1.tar.gz
 Summary  : Physical quantities module
 Group    : Development/Tools
 License  : BSD-3-Clause
+Requires: Pint-python3
+Requires: Pint-license
 Requires: Pint-python
+BuildRequires : buildreq-distutils3
 BuildRequires : pbr
 BuildRequires : pip
-BuildRequires : python-dev
 BuildRequires : python3-dev
 BuildRequires : setuptools
 
 %description
-Pint: makes units easy
 ======================
-Pint is a Python package to define, operate and manipulate physical
-quantities: the product of a numerical value and a unit of measurement.
-It allows arithmetic operations between them and conversions from and
-to different units.
+        
+        Pint is a Python package to define, operate and manipulate physical
+
+%package license
+Summary: license components for the Pint package.
+Group: Default
+
+%description license
+license components for the Pint package.
+
 
 %package python
 Summary: python components for the Pint package.
 Group: Default
+Requires: Pint-python3
 Provides: pint-python
 
 %description python
 python components for the Pint package.
+
+
+%package python3
+Summary: python3 components for the Pint package.
+Group: Default
+Requires: python3-core
+
+%description python3
+python3 components for the Pint package.
 
 
 %prep
@@ -42,20 +59,20 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1496836561
-python2 setup.py build -b py2
+export SOURCE_DATE_EPOCH=1532213268
 python3 setup.py build -b py3
 
 %check
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-PYTHONPATH=%{buildroot}/usr/lib/python3.6/site-packages python3 setup.py test || :
+PYTHONPATH=%{buildroot}/usr/lib/python3.7/site-packages python3 setup.py test || :
 %install
-export SOURCE_DATE_EPOCH=1496836561
 rm -rf %{buildroot}
-python2 -tt setup.py build -b py2 install --root=%{buildroot} --force
-python3 -tt setup.py build -b py3 install --root=%{buildroot} --force
+mkdir -p %{buildroot}/usr/share/doc/Pint
+cp LICENSE %{buildroot}/usr/share/doc/Pint/LICENSE
+cp docs/_themes/LICENSE %{buildroot}/usr/share/doc/Pint/docs__themes_LICENSE
+python3 -tt setup.py build -b py3 install --root=%{buildroot}
 echo ----[ mark ]----
 cat %{buildroot}/usr/lib/python3*/site-packages/*/requires.txt || :
 echo ----[ mark ]----
@@ -63,7 +80,14 @@ echo ----[ mark ]----
 %files
 %defattr(-,root,root,-)
 
+%files license
+%defattr(-,root,root,-)
+/usr/share/doc/Pint/LICENSE
+/usr/share/doc/Pint/docs__themes_LICENSE
+
 %files python
 %defattr(-,root,root,-)
-/usr/lib/python2*/*
+
+%files python3
+%defattr(-,root,root,-)
 /usr/lib/python3*/*
