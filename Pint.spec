@@ -4,7 +4,7 @@
 #
 Name     : Pint
 Version  : 0.8.1
-Release  : 24
+Release  : 25
 URL      : http://pypi.debian.net/Pint/Pint-0.8.1.tar.gz
 Source0  : http://pypi.debian.net/Pint/Pint-0.8.1.tar.gz
 Summary  : Physical quantities module
