@@ -4,20 +4,16 @@
 #
 Name     : Pint
 Version  : 0.8.1
-Release  : 27
+Release  : 28
 URL      : http://pypi.debian.net/Pint/Pint-0.8.1.tar.gz
 Source0  : http://pypi.debian.net/Pint/Pint-0.8.1.tar.gz
 Summary  : Physical quantities module
 Group    : Development/Tools
 License  : BSD-3-Clause
-Requires: Pint-python3
-Requires: Pint-license
-Requires: Pint-python
+Requires: Pint-license = %{version}-%{release}
+Requires: Pint-python = %{version}-%{release}
+Requires: Pint-python3 = %{version}-%{release}
 BuildRequires : buildreq-distutils3
-BuildRequires : pbr
-BuildRequires : pip
-BuildRequires : python3-dev
-BuildRequires : setuptools
 
 %description
 ======================
@@ -35,7 +31,7 @@ license components for the Pint package.
 %package python
 Summary: python components for the Pint package.
 Group: Default
-Requires: Pint-python3
+Requires: Pint-python3 = %{version}-%{release}
 Provides: pint-python
 
 %description python
@@ -53,26 +49,34 @@ python3 components for the Pint package.
 
 %prep
 %setup -q -n Pint-0.8.1
+cd %{_builddir}/Pint-0.8.1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1532213268
-python3 setup.py build -b py3
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1576012802
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$CFLAGS -fno-lto "
+export FFLAGS="$CFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
+export MAKEFLAGS=%{?_smp_mflags}
+python3 setup.py build
 
 %check
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-PYTHONPATH=%{buildroot}/usr/lib/python3.7/site-packages python3 setup.py test || :
+PYTHONPATH=%{buildroot}$(python -c "import sys; print(sys.path[-1])") python setup.py test || :
 %install
+export MAKEFLAGS=%{?_smp_mflags}
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/Pint
-cp LICENSE %{buildroot}/usr/share/doc/Pint/LICENSE
-cp docs/_themes/LICENSE %{buildroot}/usr/share/doc/Pint/docs__themes_LICENSE
-python3 -tt setup.py build -b py3 install --root=%{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/Pint
+cp %{_builddir}/Pint-0.8.1/LICENSE %{buildroot}/usr/share/package-licenses/Pint/39c7163c5c236aaaaf2a5847b6e32022259d6f23
+cp %{_builddir}/Pint-0.8.1/docs/_themes/LICENSE %{buildroot}/usr/share/package-licenses/Pint/d0eff60551064b040266867c393e035d747b0ae5
+python3 -tt setup.py build  install --root=%{buildroot}
 echo ----[ mark ]----
 cat %{buildroot}/usr/lib/python3*/site-packages/*/requires.txt || :
 echo ----[ mark ]----
@@ -81,9 +85,9 @@ echo ----[ mark ]----
 %defattr(-,root,root,-)
 
 %files license
-%defattr(-,root,root,-)
-/usr/share/doc/Pint/LICENSE
-/usr/share/doc/Pint/docs__themes_LICENSE
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/Pint/39c7163c5c236aaaaf2a5847b6e32022259d6f23
+/usr/share/package-licenses/Pint/d0eff60551064b040266867c393e035d747b0ae5
 
 %files python
 %defattr(-,root,root,-)
