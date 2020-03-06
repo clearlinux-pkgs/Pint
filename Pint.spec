@@ -4,7 +4,7 @@
 #
 Name     : Pint
 Version  : 0.8.1
-Release  : 30
+Release  : 31
 URL      : http://pypi.debian.net/Pint/Pint-0.8.1.tar.gz
 Source0  : http://pypi.debian.net/Pint/Pint-0.8.1.tar.gz
 Summary  : Physical quantities module
@@ -16,12 +16,9 @@ Requires: Pint-python3 = %{version}-%{release}
 BuildRequires : buildreq-distutils3
 
 %description
-Pint: makes units easy
 ======================
-Pint is a Python package to define, operate and manipulate physical
-quantities: the product of a numerical value and a unit of measurement.
-It allows arithmetic operations between them and conversions from and
-to different units.
+        
+        Pint is a Python package to define, operate and manipulate physical
 
 %package license
 Summary: license components for the Pint package.
@@ -45,7 +42,8 @@ python components for the Pint package.
 Summary: python3 components for the Pint package.
 Group: Default
 Requires: python3-core
-Provides: pypi(Pint)
+Provides: pypi(pint)
+Requires: pypi(setuptools)
 
 %description python3
 python3 components for the Pint package.
@@ -60,8 +58,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1583202282
-# -Werror is for werrorists
+export SOURCE_DATE_EPOCH=1583520131
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$CFLAGS -fno-lto "
